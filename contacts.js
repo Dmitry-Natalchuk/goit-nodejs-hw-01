@@ -2,8 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const shortid = require('shortid');
 
-const contactsPath = path.resolve('./db/contacts.json');
-console.log(contactsPath);
+const contactsPath = path.resolve(__filename, './db/contacts.json');
 
 function listContacts() {
   try {
