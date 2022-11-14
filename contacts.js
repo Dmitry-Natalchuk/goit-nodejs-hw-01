@@ -1,21 +1,59 @@
-/*
- * Раскомментируй и запиши значение
- * const contactsPath = ;
- */
+const fs = require('fs').promises;
+const path = require('path');
+const shortid = require('shortid');
 
-// TODO: задокументировать каждую функцию
+const contactsPath = path.resolve('./db/contacts.json');
+console.log(contactsPath);
+
 function listContacts() {
-  // ...твой код
+  try {
+    const readFile = fs.readFile(contactsPath);
+    const items = JSON.parse(readFile);
+    return items;
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 function getContactById(contactId) {
-  // ...твой код
+  try {
+    const contacts = listContacts();
+    const getIdContact = contacts.some(contact => contact.id === contactId);
+    return getIdContact;
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 function removeContact(contactId) {
-  // ...твой код
+  try {
+    const contacts = listContacts();
+    const removeContact = contacts.filter(contact => contact.id !== contactId);
+    return removeContact;
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 function addContact(name, email, phone) {
-  // ...твой код
+  try {
+    const contacts = listContacts();
+    const newContact = {
+      id: shortid.generate(),
+      name: name,
+      email: email,
+      phone: phone,
+    };
+    const addContactList = [...contacts, newContact];
+    return addContactList;
+  } catch (error) {
+    console.log(error);
+  }
 }
+
+module.exports = {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+};
