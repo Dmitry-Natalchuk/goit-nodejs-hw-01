@@ -2,11 +2,12 @@ const fs = require('fs').promises;
 const path = require('path');
 const shortid = require('shortid');
 
-const contactsPath = path.resolve(__filename, './db/contacts.json');
+/* const contactsPath = path.resolve('./db/contacts.json'); */
+const contactsPath = path.join(__dirname, '.db');
 
-function listContacts() {
+async function listContacts() {
   try {
-    const readFile = fs.readFile(contactsPath);
+    const readFile = await fs.readFile(contactsPath);
     const items = JSON.parse(readFile);
     return items;
   } catch (error) {
