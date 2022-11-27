@@ -2,8 +2,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const shortid = require('shortid');
 
-/* const contactsPath = path.resolve('./db/contacts.json'); */
-const contactsPath = path.join(__dirname, '.db');
+const contactsPath = path.join(__dirname, 'db/contacts.json');
 
 async function listContacts() {
   try {
@@ -15,19 +14,19 @@ async function listContacts() {
   }
 }
 
-function getContactById(contactId) {
+async function getContactById(contactId) {
   try {
-    const contacts = listContacts();
-    const getIdContact = contacts.some(contact => contact.id === contactId);
+    const contacts = await listContacts();
+    const getIdContact = contacts.find(contact => contact.id === contactId);
     return getIdContact;
   } catch (error) {
     console.log(error.message);
   }
 }
 
-function removeContact(contactId) {
+async function removeContact(contactId) {
   try {
-    const contacts = listContacts();
+    const contacts = await listContacts();
     const removeContact = contacts.filter(contact => contact.id !== contactId);
     return removeContact;
   } catch (error) {
@@ -35,14 +34,14 @@ function removeContact(contactId) {
   }
 }
 
-function addContact(name, email, phone) {
+async function addContact(name, email, phone) {
   try {
-    const contacts = listContacts();
+    const contacts = await listContacts();
     const newContact = {
       id: shortid.generate(),
-      name: name,
-      email: email,
-      phone: phone,
+      name,
+      email,
+      phone,
     };
     const addContactList = [...contacts, newContact];
     return addContactList;
